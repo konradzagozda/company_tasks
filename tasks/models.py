@@ -7,8 +7,8 @@ class Task(models.Model):
     DONE = 'DONE'
     TO_DO = 'TO_DO'
     TASK_CHOICES = (
+        (TO_DO, TO_DO),
         (DONE, DONE),
-        (TO_DO, TO_DO)
     )
 
     assigned_user = models.ForeignKey(User, on_delete=PROTECT)

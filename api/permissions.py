@@ -11,7 +11,6 @@ class UsersPermission(permissions.BasePermission):
         # specified in has_object_permission what to do depending on what object it is
         if view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
             return True
-
         return False
 
     def has_object_permission(self, request, view, obj):
@@ -28,12 +27,11 @@ class UsersPermission(permissions.BasePermission):
 
 class TasksPermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.user.is_authenticated and request.user.is_superuser:
-            return True
-        # specified in has_object_permission what to do depending on what object it is
-        if view.action in ['retrieve', 'update', 'partial_update']:
-            return True
-
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                return True
+            if view.action in ['retrieve', 'update', 'partial_update', 'list']:
+                return True
         return False
 
     def has_object_permission(self, request, view, obj):

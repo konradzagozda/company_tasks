@@ -11,8 +11,16 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [TasksPermission]
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.queryset
+        else:
+            user = self.request.user
+            return self.queryset.filter(assigned_user=user)
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [UsersPermission]
+
