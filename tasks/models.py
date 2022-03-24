@@ -4,13 +4,15 @@ from django.db.models import PROTECT
 
 
 class Task(models.Model):
+    DONE = 'DONE'
+    TO_DO = 'TO_DO'
     TASK_CHOICES = (
-        ('DONE', 'DONE'),
-        ('TD_DO', 'TO_DO')
+        (DONE, DONE),
+        (TO_DO, TO_DO)
     )
 
-    user = models.ForeignKey(User, on_delete=PROTECT)
+    assigned_user = models.ForeignKey(User, on_delete=PROTECT)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    state = models.CharField(choices=TASK_CHOICES, max_length=5)
+    state = models.CharField(choices=TASK_CHOICES, max_length=5, default=TO_DO)
     deadline = models.DateTimeField()
