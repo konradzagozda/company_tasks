@@ -3,7 +3,15 @@ from django.db import models
 from django.db.models import PROTECT
 
 
-class Task(models.Model):
+class TimestampedModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Task(TimestampedModel):
     DONE = 'DONE'
     TO_DO = 'TO_DO'
     TASK_CHOICES = (
@@ -16,3 +24,6 @@ class Task(models.Model):
     description = models.TextField()
     state = models.CharField(choices=TASK_CHOICES, max_length=5, default=TO_DO)
     deadline = models.DateTimeField()
+
+    class Meta:
+        ordering = ('-state', 'deadline')

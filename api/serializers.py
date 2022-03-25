@@ -18,6 +18,12 @@ class TaskCheckSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ['url', 'assigned_user', 'title', 'description', 'deadline']
 
 
+class TaskCreateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['url', 'assigned_user', 'title', 'description', 'deadline']
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
     undone_tasks_no = serializers.SerializerMethodField()
@@ -42,3 +48,5 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         url = reverse('task-list', request=self.context['request'])
         url += f'?assigned_user={obj.id}'
         return url
+
+
