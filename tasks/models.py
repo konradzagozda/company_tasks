@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import PROTECT
 
-from tasks.tasks import send_mail
+from tasks.tasks import schedule_mail
 
 
 class TimestampedModel(models.Model):
@@ -36,4 +36,4 @@ class Task(TimestampedModel):
     def save(self, *args, **kwargs):
         super(Task, self).save(*args, **kwargs)
         # todo: schedule sending mail
-        send_mail.delay(self.id, self.updated)
+        schedule_mail.apply_async((self.assigned_user.email, self.id, str(self.updated)), eta=self.deadline)
