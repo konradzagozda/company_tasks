@@ -1,6 +1,15 @@
 We have 2 types of users: admins and regular users (employees)
 
+## Prerequisites:
+- Docker running & docker compose installed. Check: `docker-compose --version` & `service docker status`
+
 ## Instructions:
+
+
+if rabbitmq fails to start:  
+`lsof -i :5672`  
+`kill -9 <PID>`  
+
 0. start postgres `docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5555:5432 postgres`
 1. login to db: `psql -h 127.0.0.1 -p 5555 -U postgres`
 2. create db: `CREATE DATABASE company_tasks;`
@@ -21,4 +30,5 @@ We have 2 types of users: admins and regular users (employees)
 - mark task as done / undone
 
 ## todo
-- dockerize?
+- tests
+- dockerize
