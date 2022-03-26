@@ -42,7 +42,7 @@ def send_task_reminders():
 app.conf.beat_schedule = {
     # Executes at sunset in Lublin
     'add-at-lublin-sunrise': {
-        'task': 'company_tasks.send_task_reminders',
+        'task': 'tasks.tasks.send_task_reminders',
         'schedule': solar('sunrise', 51.246452, 22.568445),
     },
 }
