@@ -4,7 +4,7 @@ We have 2 types of users: admins and regular users (employees)
 1. start rabbitmq running on default port `docker run -d -p 5672:5672 rabbitmq`
 2. activate virtual env: `source ./venv/bin/activate`
 3. install requirements: `pip install -r pip_requirements.txt`
-4. start celery worker `celery -A company_tasks worker -l info`
+4. start celery worker & scheduler `celery -A company_tasks worker -l info -B`
 5. migrate: `python manage.py migrate`
 6. run server: `python manage.py runserver`
 7. create admin user so u can create employees and assign tasks `python manage.py createsuperuser`
