@@ -1,44 +1,36 @@
 version: "3.9"
 
-networks:
-  app-tier:
-    driver: bridge
-
-
 services:
   db:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5555:5432"
+    restart: always
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    networks:
-      - app-tier
   rabbit:
     image: rabbitmq
-    ports:
-      - "5673:5672"
     depends_on:
       - db
-    networks:
-      - app-tier
   company_tasks:
     build: .
     command: >
-      bash -c "python manage.py wait_for_db &&
+      bash -c "pip install psycopg2-binary &&
+               pip install -r pip_requirements.txt &&
                python manage.py migrate &&
-               python manage.py runserver &&
-               celery -A company_tasks worker -l info -B"
+               python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')\" &&
+               celery -A company_tasks worker -l info -B --detach &&
+               python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
       - "8000:8000"
-    networks:
-      - app-tier
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     depends_on:
-      - rabbit
+      - db

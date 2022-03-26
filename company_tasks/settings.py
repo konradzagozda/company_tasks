@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(ji6ldcz66!-kci6j9$i0v7ovlyn%e15b^c+6p9-j@t5+rp^30
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'company_tasks',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5555',
+        'HOST': 'db', # db - postgres container name specified in docker-compose.yml
+        'PORT': '5432',
     }
 }
 
@@ -142,15 +142,8 @@ DEFAULT_FROM_EMAIL = 'oasdkoasd2123@gmail.com'
 
 
 # CELERY
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'pyamqp://rabbit:5672' # rabbit - rabbitmq container name specified in docker-compose.yml
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Warsaw'
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ]
-}
