@@ -7,7 +7,7 @@ We have 2 types of users: admins and regular users (employees)
 
 
 if rabbitmq fails to start:  
-`lsof -i :5672`  
+`sudo lsof -i :5672`  
 `kill -9 <PID>`  
 
 0. start postgres `docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5555:5432 postgres`

@@ -1,5 +1,10 @@
 version: "3.9"
 
+networks:
+  app-tier:
+    driver: bridge
+
+
 services:
   db:
     image: postgres
@@ -12,12 +17,16 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - app-tier
   rabbit:
     image: rabbitmq
     ports:
-      - "5672:5672"
+      - "5673:5672"
     depends_on:
       - db
+    networks:
+      - app-tier
   company_tasks:
     build: .
     command: >
@@ -29,5 +38,7 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+    networks:
+      - app-tier
     depends_on:
       - rabbit
