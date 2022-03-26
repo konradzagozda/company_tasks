@@ -1,11 +1,11 @@
 We have 2 types of users: admins and regular users (employees)
 
 ## Prerequisites:
-- Docker running & docker compose installed. Check: `docker-compose --version` & `service docker status`
+- Docker running & docker compose installed. Check: `docker-compose --version`
 
 ## Instructions:
-- run `docker-compose run`
-- go to `http://0.0.0.0:8000/api/`
+- run `docker-compose up`
+- go to `http://0.0.0.0:8000/api/` or `http://127.0.0.1:8000/api/`
 - sign in with credentials: admin/admin, create users and create some tasks for them
 
 
