@@ -14,7 +14,11 @@ def schedule_mail(email, task_id, updated):
     task = Task.objects.get(id=task_id)
     # second condition means if it's the latest version of email (it could be rescheduled then this task should be ignored)
     if task.state == task.TO_DO and updated == str(task.updated):
-        send_mail('Minął czas wykonania zadania 😞', f'{task}', DEFAULT_FROM_EMAIL, [email], fail_silently=False)
+        msg = 'Minął czas wykonania zadania 😞\n\n'
+        msg += f'Tytuł:\t{task.title}\n'
+        msg += f'Opis:\t{task.description}\n'
+        msg += f'Termin:\t{task.deadline.strftime("%d/%m/%Y, %H:%M:%S")}\n'
+        send_mail('Minął czas wykonania zadania 😞', f'{msg}', DEFAULT_FROM_EMAIL, [email], fail_silently=False)
     return updated, str(task.updated)
 
 
@@ -29,7 +33,7 @@ def send_task_reminders():
         for task in tasks:
             msg += f'\tTytuł: {task.title}\n'
             msg += f'\tOpis: {task.description}\n'
-            msg += f'\tTermin wykonania: {task.deadline}\n\n'
+            msg += f'\tTermin wykonania: {task.deadline.strftime("%d/%m/%Y, %H:%M:%S")}'
         send_mail(
             'Lista zadań 📝',
             msg,
