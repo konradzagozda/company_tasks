@@ -41,6 +41,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         )
         return user
 
+    def update(self, instance, validated_data):
+        instance.username = validated_data['username']
+        instance.set_password(validated_data['password'])
+        instance.email = validated_data['email']
+        instance.save()
+        return instance
+
     def get_undone_tasks_no(self, obj):
         return Task.objects.filter(assigned_user=obj).count()
 
