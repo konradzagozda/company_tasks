@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import PROTECT
 
+from tasks.tasks import send_mail
+
 
 class TimestampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -27,3 +29,11 @@ class Task(TimestampedModel):
 
     class Meta:
         ordering = ('-state', 'deadline')
+
+    def __str__(self):
+        return f'{self.title}\t{self.description[:30]}\t{self.deadline}\t{self.state}'
+
+    def save(self, *args, **kwargs):
+        super(Task, self).save(*args, **kwargs)
+        # todo: schedule sending mail
+        send_mail.delay(self.id, self.updated)
