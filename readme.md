@@ -6,7 +6,7 @@ We have 2 types of users: admins and regular users (employees)
 ## Instructions:
 - run `docker-compose up`
 - go to `http://0.0.0.0:8000/api/` or `http://127.0.0.1:8000/api/`
-- sign in with credentials: admin/admin, create users and create some tasks for them
+- sign in with credentials: `admin/admin`, create users and create some tasks for them
 
 
 ### admin can:
