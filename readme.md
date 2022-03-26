@@ -17,6 +17,3 @@ We have 2 types of users: admins and regular users (employees)
 - list his tasks
 - mark task as done / undone
 
-## todo
-- tests
-- dockerize
